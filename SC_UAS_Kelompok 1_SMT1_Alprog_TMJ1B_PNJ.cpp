@@ -4,8 +4,10 @@
 
 using namespace std;
 
-vector<string> kategoriBarang = { "Asus","Lenovo", "Advan"};
-vector<string> produk = { "Asus Tuf","Asus ROG", "Lenovo LOQ", "Advan Workplus"};
+vector<string> kategoriBarang = { "Asus","Lenovo", "Advan" };
+vector<string> produk = { "Asus Tuf","Asus ROG", "Lenovo LOQ", "Advan Workplus" };
+vector<string> akun = { "Rio", "Fadhil", "Shofi", "Dzaky", "Divia", "Rania", "Abi" };
+vector<string> pw_akun = { "PwRio", "PwFadhil", "PwShofi", "PwDzaky", "PwDivia", "PwRania", "PwAbi" };
 int pilih_laman, pilih_tindakan;
 bool perulangan_kategoriBarang = false;
 bool perulangan_produk = false;
@@ -21,9 +23,9 @@ void laman_Dashboard() {
 void tampil_kategoriBarang() {
 	cout << "\n===== Kategori Barang Yang Tersedia =====" << endl;
 	for (int i = 0; i < kategoriBarang.size(); i++) {
-			cout << i + 1 << ". " << kategoriBarang[i] << endl;
+		cout << i + 1 << ". " << kategoriBarang[i] << endl;
 	}
-	
+
 }
 
 void tambah_kategoriBarang() {
@@ -41,7 +43,7 @@ void edit_kategoriBarang() {
 	cin >> edit_kategori;
 
 	string edited_kategori;
-	cout << "Masukkan Kategori yang Ingin Diedit: ";
+	cout << "Masukkan Kategori Yang Baru: ";
 	cin.ignore();
 	getline(cin, edited_kategori);
 	kategoriBarang[edit_kategori - 1] = edited_kategori;
@@ -56,6 +58,7 @@ void hapus_kategoriBarang() {
 	hapus_kategori -= 1;
 
 	kategoriBarang.erase(next(kategoriBarang.begin(), hapus_kategori));
+	cout << "Kategori Berhasil Dihapus";
 }
 
 void tampil_produk() {
@@ -81,7 +84,7 @@ void edit_produk() {
 	cin >> edit_produk;
 
 	string edited_produk;
-	cout << "Masukkan Produk yang Ingin Diedit: ";
+	cout << "Masukkan Produk yang Baru: ";
 	cin.ignore();
 	getline(cin, edited_produk);
 	produk[edit_produk - 1] = edited_produk;
@@ -96,22 +99,68 @@ void hapus_produk() {
 	hapus_produk -= 1;
 
 	produk.erase(next(produk.begin(), hapus_produk));
+	cout << "Produk Berhasil Dihapus";
 }
 
+bool login() {
+	string login_akun, login_pw_akun;
+	bool cek_akun = false;
 
+	cout << "\n1. Login\n2. Keluar\nPilih: ";
+	int opsi;
+	cin >> opsi;
 
-int main() 
-{
+	if (opsi == 1) {
+		cin.ignore();
+		cout << "Masukkan Akun: ";
+		getline(cin, login_akun);
+		cout << "Masukkan Password: ";
+		getline(cin, login_pw_akun);
+
+		for (int i = 0; i < akun.size(); i++) {
+			if (login_akun == akun[i] && login_pw_akun == pw_akun[i]) {
+				cout << "\nSelamat Datang " << login_akun << "!" << endl;
+				cek_akun = true;
+				break;
+			}
+		}
+		if (cek_akun == false) {
+			cout << "\nAkun atau Password Salah. Mohon Ulangi." << endl;
+			return login();
+		}
+	}
+	else if (opsi == 2) {
+		cout << "\nTerima Kasih, Sampai Jumpa." << endl;
+		return false;
+	}
+	else {
+		cout << "\nPilihan Tidak Valid." << endl;
+	}
+
+	return cek_akun;
+}
+
+int main() {
+	cout << "\t\t\t\t\t\t\t===== PENGELOLAAN BETUTUT STORE =====";
+
+	cout << "\nSelamat Datang Di Betutut Store\n"
+		<< "Betutut Store Melakukan Pengelolaan Toko Dengan Menambahkan Kategori Produk, Memasukan Mategori Barang Dan Memodifikasi Jumlah Penambahan Barang.\n"
+		<< "=====================================================================================================================================================";
+
+	if (login() == false) {
+		return 0;
+	}
+
 	laman_Dashboard();
-	
+
 	cout << "====== Pilih Laman ======" << endl;
 	cout << "1. Kategori Barang" << endl;
 	cout << "2. Produk" << endl;
 	cout << "Pilih: ";
 	cin >> pilih_laman;
 
-	switch (pilih_laman)
-	{
+	switch (pilih_laman) {
+
 	case 1:
 
 		do {
@@ -122,7 +171,7 @@ int main()
 			cout << "3. Hapus Kategori" << endl;
 			cout << "4. Keluar" << endl;
 			cout << "Pilih: ";
-			cin >> pilih_tindakan;	
+			cin >> pilih_tindakan;
 
 			if (pilih_tindakan == 1) {
 				tambah_kategoriBarang();
@@ -135,14 +184,13 @@ int main()
 			else if (pilih_tindakan == 3) {
 				hapus_kategoriBarang();
 			}
-			else if(pilih_tindakan == 4){
+			else if (pilih_tindakan == 4) {
 				perulangan_kategoriBarang = true;
 			}
 			else {
 				cout << "Pilihan Tidak Tersedia";
 			}
 		} while (perulangan_kategoriBarang == false);
-		
 		break;
 
 	case 2:
@@ -179,5 +227,6 @@ int main()
 	default:
 		cout << "Pilihan Tidak Tersedia";
 		break;
-	}	
+	}
+	return 0;
 }
